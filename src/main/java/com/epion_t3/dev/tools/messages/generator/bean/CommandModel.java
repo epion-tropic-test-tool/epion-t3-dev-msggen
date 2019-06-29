@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class CommandOutputModel implements Serializable {
+public class CommandModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,6 +43,9 @@ public class CommandOutputModel implements Serializable {
      */
     private List<String> function;
 
+    /**
+     * YAML構成.
+     */
     private String structure;
 
     /**

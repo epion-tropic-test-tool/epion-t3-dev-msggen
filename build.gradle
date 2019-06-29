@@ -27,6 +27,7 @@ ext {
 }
 
 repositories {
+    mavenLocal()
     maven {
         url "https://dl.bintray.com/epion-tropic-test-tool/maven"
     }
@@ -38,6 +39,10 @@ dependencies {
 
     // Core Library
     api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.1'
+
+    // 3rd Party
+    api group: 'com.zomu.t', name: 'java-generate-component', version: '0.0.1'
+    compile group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
 
     // For Develop
     compileOnly 'org.projectlombok:lombok:1.18.6'

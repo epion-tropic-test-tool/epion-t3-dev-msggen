@@ -13,7 +13,7 @@ import java.util.*;
  */
 @Getter
 @Setter
-public class FunctionOutputModel {
+public class FunctionModel {
 
     /**
      * Locale.
@@ -48,13 +48,25 @@ public class FunctionOutputModel {
     /**
      * コマンド.
      */
-    private Map<String, CommandOutputModel> commands = new HashMap<>();
+    private Map<String, CommandModel> commands = new HashMap<>();
 
-    private Set<Map.Entry<String, CommandOutputModel>> commandsEntrySet = commands.entrySet();
+    /**
+     * コマンドセット.
+     */
+    private Set<Map.Entry<String, CommandModel>> commandsEntrySet = commands.entrySet();
 
+    /**
+     * メッセージ.
+     */
+    private Map<String, Property> messages = new HashMap<>();
+
+    /**
+     * メッセージセット.
+     */
+    private Set<Map.Entry<String, Property>> messagesEntrySet = messages.entrySet();
 
     @Nullable
-    public CommandOutputModel getCommand(String id) {
+    public CommandModel getCommand(String id) {
         return commands.get(id);
     }
 

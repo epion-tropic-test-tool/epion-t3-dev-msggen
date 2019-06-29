@@ -1,29 +1,12 @@
 package com.epion_t3.dev.tools.messages.generator.app;
 
-import com.epion_t3.core.common.bean.spec.Content;
-import com.epion_t3.core.common.bean.spec.ET3Spec;
-import com.epion_t3.core.common.bean.spec.Message;
 import com.epion_t3.core.common.type.ExitCode;
+import com.epion_t3.dev.tools.messages.generator.bean.DevGeneratorContext;
 import com.epion_t3.dev.tools.messages.generator.bean.ExecuteOptions;
-import com.epion_t3.dev.tools.messages.generator.bean.Property;
 import com.epion_t3.dev.tools.messages.generator.component.DocumentGenerateComponent;
 import com.epion_t3.dev.tools.messages.generator.component.MessagePropertyGenerateComponent;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.zomu.t.lib.java.generate.common.context.ConvertContext;
-import com.zomu.t.lib.java.generate.common.context.ConvertTarget;
-import com.zomu.t.lib.java.generate.common.type.DefaultTemplate;
-import com.zomu.t.lib.java.generate.java8.converter.Java8Converter;
-import com.zomu.t.lib.java.generate.java8.model.ClassModel;
+import com.epion_t3.dev.tools.messages.generator.component.SpecParseComponent;
 import org.apache.commons.cli.*;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.nio.file.Paths;
-import java.util.*;
 
 public class Application {
 
@@ -57,26 +40,17 @@ public class Application {
         executeOptions.setJavaOutput(cmd.getOptionValue("j"));
         executeOptions.setDocOutput(cmd.getOptionValue("d"));
 
-        YAMLFactory yamlFactory = new YAMLFactory();
-        ObjectMapper objectMapper = new ObjectMapper(yamlFactory);
+        DevGeneratorContext context = new DevGeneratorContext();
+        context.setExecuteOptions(executeOptions);
 
-        // 知らない要素は無視する
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // 設計解析
+        SpecParseComponent.getInstance().execute(context);
 
-        try {
-            ET3Spec et3Spec = objectMapper.readValue(Paths.get("/Users/takashimanozomu/IdeaProjects/epion-t3/submodules/epion-t3-basic/src/main/resources/et3_basic_spec_config.yaml").toFile(), ET3Spec.class);
+        // messages.propertiesの出力
+        MessagePropertyGenerateComponent.getInstance().execute(context);
 
-            // _messages.properties￿を作成
-            MessagePropertyGenerateComponent.getInstance().generate(et3Spec, executeOptions);
-
-            // ￿document￿を作成
-            DocumentGenerateComponent.getInstance().generate(et3Spec, executeOptions);
-
-
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
+        // ドキュメントの出力
+        DocumentGenerateComponent.getInstance().execute(context);
 
         System.exit(ExitCode.NORMAL.getExitCode());
 
