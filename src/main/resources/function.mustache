@@ -1,0 +1,57 @@
+# {{labelName}} Command
+
+## Information
+
+{{#summary}}
+{{.}}
+{{/summary}}
+
+- Name : `{{name}}`
+- Custom Package : `{{customPackage}}`
+
+## Description
+
+{{#description}}
+{{.}}
+{{/description}}
+
+## Command List
+
+|Name|Summary|Assert|Evidence|
+|:---|:---|:---|:---|
+{{#commandsEntrySet}}|[{{value.id}}](#{{value.id}})|{{#value.summary}}{{.}}  {{/value.summary}}|{{#value.assertCommand}}X{{/value.assertCommand}}|{{#value.evidenceCommand}}X{{/value.evidenceCommand}}|
+{{/commandsEntrySet}}
+
+{{#commandsEntrySet}}
+------
+
+### {{value.id}}
+
+{{#value.summary}}{{.}}
+{{/value.summary}}
+
+#### Command Type
+- Assert : {{#value.assertCommand}}__Yes__{{/value.assertCommand}}{{^value.assertCommand}}No{{/value.assertCommand}}
+- Evidence : {{#value.evidenceCommand}}__Yes__{{/value.evidenceCommand}}{{^value.evidenceCommand}}No{{/value.evidenceCommand}}
+
+#### Functions
+
+{{#value.function}}- {{.}}
+{{/value.function}}
+
+#### Structure
+
+```yaml
+commands :
+  - id : コマンドのID
+    command : SetVariable
+    summary : コマンドの概要（任意）
+    description : コマンドの詳細（任意）
+    target : 変数名を指定 # (1)
+    value : 値を指定 # (2)
+```
+
+{{#value.structureDescription}}1. {{.}}
+{{/value.structureDescription}}
+
+{{/commandsEntrySet}}

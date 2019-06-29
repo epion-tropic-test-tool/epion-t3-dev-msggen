@@ -1,0 +1,30 @@
+------
+
+### {{id}}
+
+{{#summary}}- {{.}}
+{{/summary}}
+
+{{#assertCommand}}__<<Assert Command>>__  {{/assertCommand}}
+{{#evidenceCommand}}__<<Evidence Command>>__{{/evidenceCommand}}
+
+#### Functions
+
+{{#function}}- {{.}}
+{{/function}}
+
+#### Structure
+
+```yaml
+commands :
+  - id : コマンドのID
+    command : SetVariable
+    summary : コマンドの概要（任意）
+    description : コマンドの詳細（任意）
+    target : 変数名を指定 # (1)
+    value : 値を指定 # (2)
+```
+
+{{#structureDescription}}1. {{.}}
+{{/structureDescription}}
+
