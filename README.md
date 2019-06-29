@@ -1,4 +1,3 @@
-# epion-t3-basic
+# epion-t3-dev-msggen
 
-[![Build Status](https://travis-ci.org/epion-tropic-test-tool/epion-t3-basic.svg?branch=master)](https://travis-ci.org/epion-tropic-test-tool/epion-t3-basic)
 
