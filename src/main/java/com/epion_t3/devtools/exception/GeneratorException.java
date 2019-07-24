@@ -1,4 +1,4 @@
-package com.epion_t3.dev.tools.messages.generator.exception;
+package com.epion_t3.devtools.exception;
 
 public class GeneratorException extends RuntimeException {
 

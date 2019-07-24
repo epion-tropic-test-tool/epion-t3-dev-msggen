@@ -1,7 +1,7 @@
-package com.epion_t3.dev.tools.messages.generator.component;
+package com.epion_t3.devtools.component;
 
-import com.epion_t3.dev.tools.messages.generator.bean.DevGeneratorContext;
-import com.epion_t3.dev.tools.messages.generator.bean.FunctionModel;
+import com.epion_t3.devtools.bean.DevGeneratorContext;
+import com.epion_t3.devtools.bean.FunctionModel;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;

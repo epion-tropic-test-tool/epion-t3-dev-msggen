@@ -1,11 +1,11 @@
-package com.epion_t3.dev.tools.messages.generator.app;
+package com.epion_t3.devtools.app;
 
 import com.epion_t3.core.common.type.ExitCode;
-import com.epion_t3.dev.tools.messages.generator.bean.DevGeneratorContext;
-import com.epion_t3.dev.tools.messages.generator.bean.ExecuteOptions;
-import com.epion_t3.dev.tools.messages.generator.component.DocumentGenerateComponent;
-import com.epion_t3.dev.tools.messages.generator.component.MessageGenerateComponent;
-import com.epion_t3.dev.tools.messages.generator.component.SpecParseComponent;
+import com.epion_t3.devtools.bean.DevGeneratorContext;
+import com.epion_t3.devtools.bean.ExecuteOptions;
+import com.epion_t3.devtools.component.DocumentGenerateComponent;
+import com.epion_t3.devtools.component.MessageGenerateComponent;
+import com.epion_t3.devtools.component.SpecParseComponent;
 import org.apache.commons.cli.*;
 
 public class Application {
@@ -13,7 +13,7 @@ public class Application {
     private static final Options OPTIONS = new Options();
 
     static {
-        OPTIONS.addOption("t", "target", true, "target spec file.");
+        OPTIONS.addRequiredOption("t", "target", true, "target spec file.");
         OPTIONS.addOption("m", "message-output", true, "messages.properties generate place.");
         OPTIONS.addOption("j", "java-output", true, "enum java generate place.");
         OPTIONS.addOption("d", "doc-output", true, "document markdown generate place.");

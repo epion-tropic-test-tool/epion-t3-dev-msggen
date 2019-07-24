@@ -1,0 +1,1124 @@
+t3: 1.0
+#####################################
+# 対象言語
+#####################################
+languages:
+  - ja_JP
+#####################################
+# カスタム機能定義
+#####################################
+info:
+  labelName: Basic
+  name: basic
+  customPackage: com.epion_t3.basic
+  summary:
+    - lang: ja_JP
+      contents: 基本的な動作を行うコマンドを提供します。
+    - lang: en_US
+      contents: Core Functions.
+  description:
+    - lang: ja_JP
+      contents: ETTTを扱うための基本的な動作を行うコマンドおよびFlowを提供します。
+    - lang: en_US
+      contents: It provides interface and driver functions as core functions.
+#####################################
+# コマンド定義
+#####################################
+commands:
+  ##########################
+  # SetVariable
+  ##########################
+  - id: SetVariable
+    summary:
+      - lang: ja_JP
+        contents: 任意のスコープ変数に対して値を設定します。
+      - lang: ja_JP
+        contents: 設定する値自体も変数のバインドが利用できますが、基本的には固定値で利用されることを想定してます。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 試験変数「${target}」に対して値「${value}」を設定します。
+          - lang: en_US
+            contents: Document for Test Item.
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 任意のスコープ変数に対して値を設定します。
+          - lang: en_US
+            contents: bbb
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 設定する値自体も変数のバインドが利用できますが、基本的には固定値で利用されることを想定してます。
+          - lang: en_US
+            contents: bbb
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「SetVariable」固定
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+          - lang: en_US
+            contents: Fix Value SetVariable
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 変数名を指定 # (1)
+          - lang: en_US
+            contents: Fix Value SetVariable
+        description:
+          - lang: ja_JP
+            contents: 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+      - order: 6
+        name: value
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 値を指定 # (2)
+          - lang: en_US
+            contents: Fix Value SetVariable
+        description:
+          - lang: ja_JP
+            contents: 値は基本的に固定値を指定します。「あああ」と定義した場合は文字列で「あああ」と登録されます。
+  ##########################
+  # RemoveVariable
+  ##########################
+  - id: RemoveVariable
+    summary:
+      - lang: ja_JP
+        contents: 任意のスコープ変数に設定してある変数を削除します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 試験変数「${target}」を削除します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 任意のスコープ変数に設定してある変数を削除します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「RemoveVariable」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "変数名を指定 # (1)"
+        description:
+          - lang: ja_JP
+            contents: 変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。
+  ##########################
+  # DirectoryCreate
+  ##########################
+  - id: DirectoryCreate
+    summary:
+      - lang: ja_JP
+        contents: ディレクトリの作成を行います。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」ディレクトリを作成します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: ディレクトリの作成を行います。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「DirectoryCreate」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "作成するディレクトリパスを指定（絶対パス）"
+        description:
+          - lang: ja_JP
+            contents: 作成するディレクトリパスを指定。このパスには変数をバインド可能です。絶対パスで指定するようにしてください。
+  ##########################
+  # FileDelete
+  ##########################
+  - id: FileDelete
+    summary:
+      - lang: ja_JP
+        contents: 指定されたファイルを削除します。試験時に不要なファイルを消す目的で利用できます。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」を削除します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 指定されたファイルを削除します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「FileDelete」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 削除対象ファイルを指定 \# (1)
+        description:
+          - lang: ja_JP
+            contents: 削除対象のファイルのパスを指定します。このパスには変数をバインド可能です。絶対パスで指定するようにしてください。
+  ##########################
+  # FileCopy
+  ##########################
+  - id: FileCopy
+    summary:
+      - lang: ja_JP
+        contents: 指定されたファイルをコピーします。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${from}」から「${to}」へファイルコピーを行います。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 指定されたファイルをコピーします。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「FileCopy」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: from
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コピー元の対象を指定 \# (1)
+        description:
+          - lang: ja_JP
+            contents: コピー元の対象の指定します。このパスには変数をバインド可能です。絶対パスで指定するようにしてください。
+      - order: 6
+        name: to
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コピー先の対象を指定 \# (2)
+        description:
+          - lang: ja_JP
+            contents: コピー先の対象の指定します。このパスには変数をバインド可能です。絶対パスで指定するようにしてください。
+  ##########################
+  # FileGet
+  ##########################
+  - id: FileGet
+    evidenceCommand: true
+    summary:
+      - lang: ja_JP
+        contents: ファイルシステムを利用したファイル取得機能です。 ローカルテスト時等でしか役に立たないかもしれないですが、初期ツール導入時にご活用ください。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」ファイルの取得を行います。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: ファイルシステムを利用してファイルを取得します
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 取得したファイルはエビデンスとして保存します
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「FileGet」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "ファイルパス(絶対パス) # (1)"
+        description:
+          - lang: ja_JP
+            contents: 取得するファイルパスを絶対パスにて指定します。変数のバインドにも対応していますので、絶対パスのベースパス等の解決にも利用可能です。
+  ##########################
+  # CreateUUID
+  ##########################
+  - id: CreateUUID
+    summary:
+      - lang: ja_JP
+        contents: UUIDを作成します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: UUIDを生成して一時的に「${target}」として保持します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: UUIDを作成します。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 任意の変数へ設定可能です。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「CreateUUID」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: UUIDを設定する変数を指定 \# (1)
+        description:
+          - lang: ja_JP
+            contents: UUIDを生成した後に設定する変数を指定します。
+  ##########################
+  # CreateUUIDString
+  ##########################
+  - id: CreateUUIDString
+    summary:
+      - lang: ja_JP
+        contents: UUIDを作成し、文字列に変換します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: UUIDを生成して文字列化した後一時的に「${target}」として保持します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: UUIDを作成します。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 任意の変数へ設定可能です。
+      - order: 3
+        summary:
+          - lang: ja_JP
+            contents: 文字列へ変換します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「CreateUUIDString」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: UUIDを設定する変数を指定 \# (1)
+        description:
+          - lang: ja_JP
+            contents: UUIDを生成した後に設定する変数を指定します。
+  ##########################
+  # Sleep
+  ##########################
+  - id: Sleep
+    summary:
+      - lang: ja_JP
+        contents: 指定された時間休止します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${value}ms」休止します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 指定されたミリ秒の間休止します。全ての動作が止まります。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「Sleep」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: value
+        required: true
+        type: string
+        pattern: "[0-9]+"
+        summary:
+          - lang: ja_JP
+            contents: 休止する時間をミリ秒で指定
+  ##########################
+  # CreateNowDate
+  ##########################
+  - id: CreateNowDate
+    summary:
+      - lang: ja_JP
+        contents: 現在日付を作成して変数に設定します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 現在日付を作成して一時的に「${target}」として保持します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 現在日付を作成して変数に設定します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「CreateNowDate」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 現在日付を設定する変数を指定
+  ##########################
+  # FormatDateString
+  ##########################
+  - id: FormatDateString
+    summary:
+      - lang: ja_JP
+        contents: 日付を指定されたフォーマットの文字列に変換します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 現在日付を作成して一時的に「${target}」として保持します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 日付を指定されたフォーマットの文字列に変換します。
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: "指定できる日付フォーマットは、[Java標準](https://docs.oracle.com/javase/jp/8/docs/api/java/util/regex/Pattern.html)となります。"
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「FormatDateString」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 現在日付を設定する変数を指定
+      - order: 6
+        name: value
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 日付フォーマットのパターンを指定
+      - order: 7
+        name: formattedTarget
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: フォーマット処理後の値を格納する変数名を指定
+  ##########################
+  # AddDate
+  ##########################
+  - id: AddDate
+    summary:
+      - lang: ja_JP
+        contents: 日付に対して指定した日付を足します。足した結果を変数に設定します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 日付に対して加算処理を行なった後、一時的に「${addedTarget}」として保持します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 日付に対して指定した日付を足します。足した結果を変数に設定します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「AddDate」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 加算対象の日付が格納されている変数名を指定
+      - order: 6
+        name: value
+        required: true
+        type: string
+        pattern: "[0-9]+"
+        summary:
+          - lang: ja_JP
+            contents: 加算する日付を数値で指定
+      - order: 7
+        name: addedTarget
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 加算した結果日付を格納する変数名を指定
+  ##########################
+  # StringConcat
+  ##########################
+  - id: StringConcat
+    summary:
+      - lang: ja_JP
+        contents: 複数の文字列を結合して１つの文字列へ加工します。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 複数の文字列「${referenceVariables}」を結合して１つの文字列に加工し、一時的に「${target}」に設定します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 複数の文字列を結合して１つの文字列へ加工します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「StringConcat」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 結合後の文字列を格納する変数名を指定
+      - order: 6
+        name: referenceVariables
+        required: true
+        type: array
+        summary:
+          - lang: ja_JP
+            contents: 結合する文字列を指定
+  ##########################
+  # ConsoleInput
+  ##########################
+  - id: ConsoleInput
+    summary:
+      - lang: ja_JP
+        contents: ユーザーのコンソール入力を行うための機能です。自動テストでは利用用途がありませんが、動作確認時にには有効です。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 複数の文字列「${referenceVariables}」を結合して１つの文字列に加工し、一時的に「${target}」に設定します。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: ユーザのコンソール入力が行われるまで待ち続けます。
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 入力された文字列は指定した変数へ設定します。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「ConsoleInput」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 入力を促す文字列を指定。ユーザーが何を入力すれば良いかをわかりやすく指定。
+      - order: 6
+        name: value
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 入力した文字列を格納する対象の変数名を指定。
+  ##########################
+  # AssertExistsStringInText
+  ##########################
+  - id: AssertExistsStringInText
+    assertCommand: true
+    summary:
+      - lang: ja_JP
+        contents: 指定したテキストファイルの中に指定した文字列を含むことを確認するためのコマンドです。ログファイルに対する確認などに利用可能です。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」の中に「${value}」を含むことを確認。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 指定したテキストファイル中に任意の文字列が含まれていることを確認します。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 対象とするテキストファイルはあらかじめエビデンスとして保存されている必要があります。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「AssertExistsStringInText」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "対象のFlowIDを指定 # (1)"
+        description:
+          - lang: ja_JP
+            contents: "変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。"
+      - order: 6
+        name: value
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 含まれていることを確認する値
+  ##########################
+  # AssertNotExistsStringInText
+  ##########################
+  - id: AssertNotExistsStringInText
+    assertCommand: true
+    summary:
+      - lang: ja_JP
+        contents: 指定したテキストファイルの中に指定した文字列を含まれないことを確認するためのコマンドです。ログファイルに対する確認などに利用可能です。
+    testItem:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 「${target}」の中に「${value}」を含まれないことを確認。
+    function:
+      - order: 1
+        summary:
+          - lang: ja_JP
+            contents: 指定したテキストファイル中に任意の文字列が含まれないことを確認します。
+      - order: 2
+        summary:
+          - lang: ja_JP
+            contents: 対象とするテキストファイルはあらかじめエビデンスとして保存されている必要があります。
+    structure:
+      - order: 1
+        name: id
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドのID
+          - lang: en_US
+            contents: Core Functions.
+      - order: 2
+        name: command
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 「AssertNotExistsStringInText」固定
+      - order: 3
+        name: summary
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの概要（任意）
+      - order: 4
+        name: description
+        required: false
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: コマンドの詳細（任意）
+      - order: 5
+        name: target
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: "対象のFlowIDを指定 # (1)"
+        description:
+          - lang: ja_JP
+            contents: "変数名は「スコープ.変数名」の形式で指定します。「global.hoge」であればグローバルスコープにhogeという変数名で値を定義することになります。"
+      - order: 6
+        name: value
+        required: true
+        type: string
+        summary:
+          - lang: ja_JP
+            contents: 含まれないことを確認する値
+#####################################
+# メッセージ定義
+#####################################
+messages:
+  - id: com.epion_t3.basic.inf.0001
+    message:
+      - lang: ja_JP
+        contents: "指定パターンに合致する文字列が含まれています.指定パターン:{0}"
+  - id: com.epion_t3.basic.err.9001
+    message:
+      - lang: ja_JP
+        contents: "参照する変数のスコープが不正です.スコープ:{0}"
+  - id: com.epion_t3.basic.err.9002
+    message:
+      - lang: ja_JP
+        contents: "指定パターンに合致する文字列が含まれていません.指定パターン:{0}"
+  - id: com.epion_t3.basic.err.9003
+    message:
+      - lang: ja_JP
+        contents: "値（value）は必須です."
+  - id: com.epion_t3.basic.err.9004
+    message:
+      - lang: ja_JP
+        contents: "値（value）は数値で指定してください."
+  - id: com.epion_t3.basic.err.9005
+    message:
+      - lang: ja_JP
+        contents: "対象（target）は必須です."
+  - id: com.epion_t3.basic.err.9006
+    message:
+      - lang: ja_JP
+        contents: "ユーザー入力にてエラーが発生しました."
+  - id: com.epion_t3.basic.err.9007
+    message:
+      - lang: ja_JP
+        contents: "対象のファイルが見つかりません.パス：{0}"
+  - id: com.epion_t3.basic.err.9008
+    message:
+      - lang: ja_JP
+        contents: "対象のファイルの読み込みに失敗しました.パス：{0}"
+  - id: com.epion_t3.basic.err.9009
+    message:
+      - lang: ja_JP
+        contents: "本コマンドはjava.util.Dateを扱うためのコマンドです.変数に格納されているものは型が異なります."
+  - id: com.epion_t3.basic.err.9010
+    message:
+      - lang: ja_JP
+        contents: "フォーマット後の格納先変数の指定は必須です."
+  - id: com.epion_t3.basic.err.9011
+    message:
+      - lang: ja_JP
+        contents: "日付演算後の格納先変数の指定は必須です."

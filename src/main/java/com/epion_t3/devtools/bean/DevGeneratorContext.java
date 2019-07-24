@@ -1,4 +1,4 @@
-package com.epion_t3.dev.tools.messages.generator.bean;
+package com.epion_t3.devtools.bean;
 
 import com.epion_t3.core.common.bean.spec.ET3Spec;
 import lombok.Getter;

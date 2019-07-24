@@ -1,13 +1,14 @@
-package com.epion_t3.dev.tools.messages.generator.component;
+package com.epion_t3.devtools.component;
 
 import com.epion_t3.core.common.bean.spec.*;
 import com.epion_t3.core.common.type.StructureType;
-import com.epion_t3.dev.tools.messages.generator.bean.CommandModel;
-import com.epion_t3.dev.tools.messages.generator.bean.DevGeneratorContext;
-import com.epion_t3.dev.tools.messages.generator.bean.FunctionModel;
-import com.epion_t3.dev.tools.messages.generator.bean.Property;
-import com.epion_t3.dev.tools.messages.generator.comparator.FunctionComparator;
-import com.epion_t3.dev.tools.messages.generator.comparator.StructureComparator;
+import com.epion_t3.devtools.bean.CommandModel;
+import com.epion_t3.devtools.bean.DevGeneratorContext;
+import com.epion_t3.devtools.bean.FunctionModel;
+import com.epion_t3.devtools.bean.Property;
+import com.epion_t3.devtools.comparator.FunctionComparator;
+import com.epion_t3.devtools.comparator.StructureComparator;
+import com.epion_t3.devtools.exception.GeneratorException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -15,6 +16,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
@@ -63,7 +66,12 @@ public final class SpecParseComponent implements Component {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         try {
-            ET3Spec spec = objectMapper.readValue(Paths.get("/Users/takashimanozomu/work/30_pgworkspaces/epion-t3/epion-t3-basic/src/main/resources/et3_basic_spec_config.yaml").toFile(), ET3Spec.class);
+            Path specFile = Paths.get(context.getExecuteOptions().getTarget());
+            if (Files.notExists(specFile)) {
+                throw new GeneratorException("fail read spec file. path:" + specFile.toString());
+            }
+
+            ET3Spec spec = objectMapper.readValue(specFile.toFile(), ET3Spec.class);
             context.setSpec(spec);
 
             // 対象のLocaleについてコマンド出力モデルを作成
@@ -89,7 +97,7 @@ public final class SpecParseComponent implements Component {
 
         } catch (
                 IOException e) {
-            e.printStackTrace();
+            throw new GeneratorException("fail parse spec file.", e);
         }
 
     }

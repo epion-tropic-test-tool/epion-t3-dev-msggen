@@ -1,4 +1,4 @@
-package com.epion_t3.dev.tools.messages.generator.comparator;
+package com.epion_t3.devtools.comparator;
 
 import com.epion_t3.core.common.bean.spec.Structure;
 

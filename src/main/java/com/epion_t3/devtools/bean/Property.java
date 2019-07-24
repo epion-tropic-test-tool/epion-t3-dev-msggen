@@ -1,4 +1,4 @@
-package com.epion_t3.dev.tools.messages.generator.bean;
+package com.epion_t3.devtools.bean;
 
 import lombok.*;
 
