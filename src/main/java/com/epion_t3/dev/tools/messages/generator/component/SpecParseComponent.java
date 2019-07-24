@@ -63,7 +63,7 @@ public final class SpecParseComponent implements Component {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         try {
-            ET3Spec spec = objectMapper.readValue(Paths.get("/Users/takashimanozomu/IdeaProjects/epion-t3-basic/src/main/resources/et3_basic_spec_config.yaml").toFile(), ET3Spec.class);
+            ET3Spec spec = objectMapper.readValue(Paths.get("/Users/takashimanozomu/work/30_pgworkspaces/epion-t3/epion-t3-basic/src/main/resources/et3_basic_spec_config.yaml").toFile(), ET3Spec.class);
             context.setSpec(spec);
 
             // 対象のLocaleについてコマンド出力モデルを作成

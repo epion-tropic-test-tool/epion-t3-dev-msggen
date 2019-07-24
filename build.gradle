@@ -41,7 +41,7 @@ dependencies {
     api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.1'
 
     // 3rd Party
-    api group: 'com.zomu.t', name: 'java-generate-component', version: '0.0.1'
+    api group: 'com.zomu_t', name: 'lib-java-generate', version: '0.0.2'
     compile group: 'com.github.spullara.mustache.java', name: 'compiler', version: '0.9.6'
 
     // For Develop

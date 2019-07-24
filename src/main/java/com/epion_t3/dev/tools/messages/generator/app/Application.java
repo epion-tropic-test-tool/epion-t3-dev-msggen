@@ -4,7 +4,7 @@ import com.epion_t3.core.common.type.ExitCode;
 import com.epion_t3.dev.tools.messages.generator.bean.DevGeneratorContext;
 import com.epion_t3.dev.tools.messages.generator.bean.ExecuteOptions;
 import com.epion_t3.dev.tools.messages.generator.component.DocumentGenerateComponent;
-import com.epion_t3.dev.tools.messages.generator.component.MessagePropertyGenerateComponent;
+import com.epion_t3.dev.tools.messages.generator.component.MessageGenerateComponent;
 import com.epion_t3.dev.tools.messages.generator.component.SpecParseComponent;
 import org.apache.commons.cli.*;
 
@@ -47,7 +47,7 @@ public class Application {
         SpecParseComponent.getInstance().execute(context);
 
         // messages.propertiesの出力
-        MessagePropertyGenerateComponent.getInstance().execute(context);
+        MessageGenerateComponent.getInstance().execute(context);
 
         // ドキュメントの出力
         DocumentGenerateComponent.getInstance().execute(context);
