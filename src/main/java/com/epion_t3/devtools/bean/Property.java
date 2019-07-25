@@ -4,6 +4,11 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * プロパティ出力モデル.
+ *
+ * @author takashno
+ */
 @Getter
 @Setter
 public class Property implements Serializable {
