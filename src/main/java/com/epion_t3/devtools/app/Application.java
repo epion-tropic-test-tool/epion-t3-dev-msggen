@@ -6,10 +6,20 @@ import com.epion_t3.devtools.bean.ExecuteOptions;
 import com.epion_t3.devtools.component.DocumentGenerateComponent;
 import com.epion_t3.devtools.component.MessageGenerateComponent;
 import com.epion_t3.devtools.component.SpecParseComponent;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.cli.*;
 
+/**
+ * 開発ツール・自動生成
+ *
+ * @author takashno
+ */
+@Slf4j
 public class Application {
 
+    /**
+     * オプション.
+     */
     private static final Options OPTIONS = new Options();
 
     static {
@@ -19,7 +29,11 @@ public class Application {
         OPTIONS.addOption("d", "doc-output", true, "document markdown generate place.");
     }
 
-
+    /**
+     * メイン処理.
+     *
+     * @param args 引数
+     */
     public static void main(String[] args) {
 
         CommandLineParser parser = new DefaultParser();
@@ -46,11 +60,19 @@ public class Application {
         // 設計解析
         SpecParseComponent.getInstance().execute(context);
 
-        // messages.propertiesの出力
-        MessageGenerateComponent.getInstance().execute(context);
+        // messages.properties、Messages.javaの出力
+        if (cmd.hasOption("m") && cmd.hasOption("j")) {
+            MessageGenerateComponent.getInstance().execute(context);
+        } else {
+            log.info("Skip Generate messages.properties and Messages.java");
+        }
 
         // ドキュメントの出力
-        DocumentGenerateComponent.getInstance().execute(context);
+        if (cmd.hasOption("d")) {
+            DocumentGenerateComponent.getInstance().execute(context);
+        } else {
+            log.info("Skip Generate Documents.");
+        }
 
         System.exit(ExitCode.NORMAL.getExitCode());
 

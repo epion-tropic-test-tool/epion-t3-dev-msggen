@@ -23,7 +23,7 @@ ext {
     siteUrl = 'https://docs.epion-t3.com'
 
     // SCM（GitHub）
-    githubUrl = 'https://github.com/epion-tropic-test-tool/epion-t3-core'
+    githubUrl = 'https://github.com/epion-tropic-test-tool/epion-t3-devtools-generator'
 }
 
 repositories {
@@ -113,7 +113,7 @@ bintray {
         repo = 'maven'
         name = project.name
         userOrg = 'epion-tropic-test-tool'
-        licenses = ['Apache2']
+        licenses = ['Apache-2.0']
         websiteUrl = siteUrl
         issueTrackerUrl = githubUrl + '/blob/master/LICENSE'
         vcsUrl = githubUrl + '.git'
