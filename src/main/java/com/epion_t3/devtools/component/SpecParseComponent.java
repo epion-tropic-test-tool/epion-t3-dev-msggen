@@ -260,9 +260,11 @@ public final class SpecParseComponent implements Component {
 
             StructureType structureType = StructureType.valueOfByValue(structure.getType());
             if (structureType == StructureType.OBJECT) {
-                createCommandStructureRecursive(locale, sb, level + 1, structure.getProperty());
+                // TODO : objectであるのに、配下のプロパティが存在しない場合にNullPointerExceptionになるため一時的に回避
+                if (structure.getProperty() != null) {
+                    createCommandStructureRecursive(locale, sb, level + 1, structure.getProperty());
+                }
             }
-
         }
     }
 
@@ -281,5 +283,3 @@ public final class SpecParseComponent implements Component {
         return levelSpace;
     }
 }
-
-

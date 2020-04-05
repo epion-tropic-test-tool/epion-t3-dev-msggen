@@ -1,8 +1,7 @@
 language: java
 sudo: required
 jdk:
-  - oraclejdk8
-  #Skip - oraclejdk9
+  - openjdk11
 dist: trusty
 before_script:
   - chmod +x gradlew
