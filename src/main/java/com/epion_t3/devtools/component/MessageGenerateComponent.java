@@ -19,8 +19,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * message.properties、Messages.javaの出力コンポーネント.
@@ -56,6 +58,14 @@ public final class MessageGenerateComponent implements Component {
      * @param context コンテキスト
      */
     public void execute(DevGeneratorContext context) {
+
+        // ENUMの列挙子のためにハイフンをアンダースコアにする
+        String customNameForJava = context.getSpec().getInfo().getName().replace("-","_");
+
+        // アッパースネークケースをクラス名としてアッパーキャメルにする
+        String customNameForClassName =
+                Arrays.stream(customNameForJava.split("_"))
+                        .map(x->StringUtils.capitalize(x)).collect(Collectors.joining());
 
         for (Map.Entry<String, FunctionModel> entry : context.getFunctionModelMap().entrySet()) {
 
@@ -97,7 +107,7 @@ public final class MessageGenerateComponent implements Component {
 
             // ファイルパス
             Path enumJava = Paths.get(parentDir.toString(),
-                    WordUtils.capitalize(context.getSpec().getInfo().getName()) + "Messages.java");
+                    WordUtils.capitalize(customNameForClassName) + "Messages.java");
 
             try (FileWriter fileWriter = new FileWriter(enumJava.toFile())) {
                 // Enum作成
@@ -120,7 +130,7 @@ public final class MessageGenerateComponent implements Component {
                         .accessModifier(AccessModifier.PUBLIC)
                         // enum
                         .classKind(ClassKind.ENUM)
-                        .className(WordUtils.capitalize(context.getSpec().getInfo().getName()) + "Messages")
+                        .className(WordUtils.capitalize(customNameForClassName) + "Messages")
                         // interface
                         .implementsClass(ClassModel.builder()
                                 .packageName("com.epion_t3.core.message")
@@ -154,7 +164,7 @@ public final class MessageGenerateComponent implements Component {
                 // 列挙子
                 for (Map.Entry<Object, Object> prop : props.entrySet()) {
                     classModel.getEnumerators().add(EnumeratorModel.builder()
-                            .name(context.getSpec().getInfo().getName().toUpperCase()
+                            .name(customNameForJava.toUpperCase()
                                     + "_"
                                     + prop.getKey().toString()
                                     .replace(context.getSpec().getInfo().getCustomPackage() + ".", "")
