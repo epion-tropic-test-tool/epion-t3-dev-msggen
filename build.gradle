@@ -14,7 +14,7 @@ ext {
     // バージョン定義
     versionMajor = 0
     versionMinor = 0
-    versionPatch = 1
+    versionPatch = 2
 
     // アーティファクト関連
     group 'com.epion_t3'
