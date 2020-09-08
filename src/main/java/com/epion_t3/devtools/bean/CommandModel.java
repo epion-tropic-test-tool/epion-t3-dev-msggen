@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.devtools.bean;
 
 import lombok.Getter;
@@ -53,7 +54,6 @@ public class CommandModel implements Serializable {
      */
     private List<String> structureDescription;
 
-
     /**
      * 機能説明を追加.
      *
@@ -89,6 +89,5 @@ public class CommandModel implements Serializable {
         }
         structureDescription.add(contents);
     }
-
 
 }

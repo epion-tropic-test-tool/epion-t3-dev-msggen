@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.devtools.component;
 
 import com.epion_t3.core.common.bean.spec.*;
@@ -94,9 +95,7 @@ public final class SpecParseComponent implements Component {
             // コマンドを解析
             parseCommands(context);
 
-
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             throw new GeneratorException("fail parse spec file.", e);
         }
 
@@ -109,20 +108,16 @@ public final class SpecParseComponent implements Component {
      */
     private void parseInfo(DevGeneratorContext context) {
 
-        context.getSpec().getInfo().getSummary().stream()
-                .forEach(x -> {
-                    if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                        context.getFunctionModelMap().get(x.getLang())
-                                .addSummary(x.getContents());
-                    }
-                });
-        context.getSpec().getInfo().getDescription().stream()
-                .forEach(x -> {
-                    if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                        context.getFunctionModelMap().get(x.getLang())
-                                .addDescription(x.getContents());
-                    }
-                });
+        context.getSpec().getInfo().getSummary().stream().forEach(x -> {
+            if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                context.getFunctionModelMap().get(x.getLang()).addSummary(x.getContents());
+            }
+        });
+        context.getSpec().getInfo().getDescription().stream().forEach(x -> {
+            if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                context.getFunctionModelMap().get(x.getLang()).addDescription(x.getContents());
+            }
+        });
 
     }
 
@@ -147,8 +142,10 @@ public final class SpecParseComponent implements Component {
             // Locale毎にメッセージ文字列を設定していく.
             message.getMessage().stream().forEach(x -> {
                 if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                    context.getFunctionModelMap().get(x.getLang())
-                            .getMessages().get(message.getId())
+                    context.getFunctionModelMap()
+                            .get(x.getLang())
+                            .getMessages()
+                            .get(message.getId())
                             .setValue(x.getContents());
                 }
             });
@@ -156,7 +153,6 @@ public final class SpecParseComponent implements Component {
         }
 
     }
-
 
     /**
      * コマンド定義を解析.
@@ -180,42 +176,40 @@ public final class SpecParseComponent implements Component {
             });
 
             // Summary
-            command.getSummary().stream()
-                    .forEach(x -> {
-                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                            context.getFunctionModelMap().get(x.getLang())
-                                    .getCommand(command.getId())
-                                    .addSummary(x.getContents());
-                        }
-                    });
+            command.getSummary().stream().forEach(x -> {
+                if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                    context.getFunctionModelMap()
+                            .get(x.getLang())
+                            .getCommand(command.getId())
+                            .addSummary(x.getContents());
+                }
+            });
 
             // Functions
-            command.getFunction().stream()
-                    .sorted(FunctionComparator.getInstance())
-                    .forEach(x -> {
-                        x.getSummary().forEach(y -> {
-                            if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                                context.getFunctionModelMap().get(y.getLang())
-                                        .getCommand(command.getId())
-                                        .addFunction(y.getContents());
-                            }
-                        });
-                    });
+            command.getFunction().stream().sorted(FunctionComparator.getInstance()).forEach(x -> {
+                x.getSummary().forEach(y -> {
+                    if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                        context.getFunctionModelMap()
+                                .get(y.getLang())
+                                .getCommand(command.getId())
+                                .addFunction(y.getContents());
+                    }
+                });
+            });
 
             // Structure Description
-            command.getStructure().stream()
-                    .sorted(StructureComparator.getInstance())
-                    .forEach(x -> {
-                        if (CollectionUtils.isNotEmpty(x.getDescription())) {
-                            x.getDescription().forEach(y -> {
-                                if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                                    context.getFunctionModelMap().get(y.getLang())
-                                            .getCommand(command.getId())
-                                            .addStructureDescription(y.getContents());
-                                }
-                            });
+            command.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
+                if (CollectionUtils.isNotEmpty(x.getDescription())) {
+                    x.getDescription().forEach(y -> {
+                        if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                            context.getFunctionModelMap()
+                                    .get(y.getLang())
+                                    .getCommand(command.getId())
+                                    .addStructureDescription(y.getContents());
                         }
                     });
+                }
+            });
 
             // YAML構成を作成
             createCommandStructure(context, command);
@@ -237,7 +231,8 @@ public final class SpecParseComponent implements Component {
         }
     }
 
-    private void createCommandStructureRecursive(String locale, StringBuilder sb, int level, List<Structure> structures) {
+    private void createCommandStructureRecursive(String locale, StringBuilder sb, int level,
+            List<Structure> structures) {
 
         if (level == 0) {
             sb.append("commands : \n");

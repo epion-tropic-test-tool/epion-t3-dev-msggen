@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.devtools.component;
 
 import com.epion_t3.devtools.bean.DevGeneratorContext;
@@ -59,14 +60,12 @@ public final class DocumentGenerateComponent implements Component {
     private void createFunctionDocument(DevGeneratorContext context) {
         MustacheFactory mf = new DefaultMustacheFactory();
         Mustache m = mf.compile("function.mustache");
-        for (Map.Entry<String, FunctionModel> entry :
-                context.getFunctionModelMap().entrySet()) {
+        for (Map.Entry<String, FunctionModel> entry : context.getFunctionModelMap().entrySet()) {
             try (StringWriter sw = new StringWriter()) {
                 m.execute(sw, entry.getValue());
                 sw.flush();
                 FileUtils.write(new File(context.getExecuteOptions().getDocOutput(),
-                                context.getSpec().getInfo().getName() + "_spec.md"), sw.toString(),
-                        "UTF-8");
+                        context.getSpec().getInfo().getName() + "_spec.md"), sw.toString(), "UTF-8");
             } catch (IOException e) {
 
             }
@@ -80,6 +79,5 @@ public final class DocumentGenerateComponent implements Component {
     private String createFlow() {
         return null;
     }
-
 
 }

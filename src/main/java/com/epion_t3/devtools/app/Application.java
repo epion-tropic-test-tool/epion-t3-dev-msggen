@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.devtools.app;
 
 import com.epion_t3.core.common.type.ExitCode;

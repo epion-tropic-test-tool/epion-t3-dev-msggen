@@ -1,3 +1,4 @@
+/* Copyright (c) 2017-2020 Nozomu Takashima. */
 package com.epion_t3.devtools.bean;
 
 import lombok.Getter;
@@ -93,6 +94,5 @@ public class FunctionModel {
         }
         description.add(contents);
     }
-
 
 }
