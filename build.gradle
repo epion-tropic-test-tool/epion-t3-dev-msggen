@@ -6,7 +6,7 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
-    id "com.jfrog.bintray" version "1.8.4"
+    id "com.jfrog.bintray" version "1.8.5"
 }
 
 ext {
@@ -28,17 +28,17 @@ ext {
 
 repositories {
     mavenLocal()
+    jcenter()
     maven {
         url "https://dl.bintray.com/epion-tropic-test-tool/maven"
     }
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
 
     // Core Library
-    api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.1'
+    api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.2'
 
     // 3rd Party
     api group: 'com.zomu_t', name: 'lib-java-generate', version: '0.0.2'
@@ -101,6 +101,15 @@ task codeCoverageReport(type: JacocoReport) {
 
 codeCoverageReport.dependsOn {
     subprojects*.test
+}
+
+spotless {
+    java {
+        enforceCheck = true
+        licenseHeaderFile rootProject.file('./formatter/LICENSE')
+        eclipse().configFile rootProject.file('./formatter/formatter.xml')
+        lineEndings 'UNIX'
+    }
 }
 
 // Library Publish
