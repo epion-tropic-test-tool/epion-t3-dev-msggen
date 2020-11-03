@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * 設計解析コンポーネント.
@@ -162,58 +165,61 @@ public final class SpecParseComponent implements Component {
     private void parseCommands(DevGeneratorContext context) {
 
         // Command
-        for (Command command : context.getSpec().getCommands()) {
+        Optional.ofNullable(context.getSpec().getCommands())
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .forEach(command -> {
 
-            // Localeが関係ないものはここで処理する.
-            CommandModel com = new CommandModel();
-            com.setId(command.getId());
-            // Command Kind
-            com.setAssertCommand(command.getAssertCommand());
-            com.setEvidenceCommand(command.getEvidenceCommand());
+                    // Localeが関係ないものはここで処理する.
+                    CommandModel com = new CommandModel();
+                    com.setId(command.getId());
+                    // Command Kind
+                    com.setAssertCommand(command.getAssertCommand());
+                    com.setEvidenceCommand(command.getEvidenceCommand());
 
-            context.getFunctionModelMap().forEach((k, v) -> {
-                v.getCommands().put(com.getId(), SerializationUtils.clone(com));
-            });
+                    context.getFunctionModelMap().forEach((k, v) -> {
+                        v.getCommands().put(com.getId(), SerializationUtils.clone(com));
+                    });
 
-            // Summary
-            command.getSummary().stream().forEach(x -> {
-                if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                    context.getFunctionModelMap()
-                            .get(x.getLang())
-                            .getCommand(command.getId())
-                            .addSummary(x.getContents());
-                }
-            });
-
-            // Functions
-            command.getFunction().stream().sorted(FunctionComparator.getInstance()).forEach(x -> {
-                x.getSummary().forEach(y -> {
-                    if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                        context.getFunctionModelMap()
-                                .get(y.getLang())
-                                .getCommand(command.getId())
-                                .addFunction(y.getContents());
-                    }
-                });
-            });
-
-            // Structure Description
-            command.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
-                if (CollectionUtils.isNotEmpty(x.getDescription())) {
-                    x.getDescription().forEach(y -> {
-                        if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                    // Summary
+                    command.getSummary().stream().forEach(x -> {
+                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
                             context.getFunctionModelMap()
-                                    .get(y.getLang())
+                                    .get(x.getLang())
                                     .getCommand(command.getId())
-                                    .addStructureDescription(y.getContents());
+                                    .addSummary(x.getContents());
                         }
                     });
-                }
-            });
 
-            // YAML構成を作成
-            createCommandStructure(context, command);
-        }
+                    // Functions
+                    command.getFunction().stream().sorted(FunctionComparator.getInstance()).forEach(x -> {
+                        x.getSummary().forEach(y -> {
+                            if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                context.getFunctionModelMap()
+                                        .get(y.getLang())
+                                        .getCommand(command.getId())
+                                        .addFunction(y.getContents());
+                            }
+                        });
+                    });
+
+                    // Structure Description
+                    command.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
+                        if (CollectionUtils.isNotEmpty(x.getDescription())) {
+                            x.getDescription().forEach(y -> {
+                                if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                    context.getFunctionModelMap()
+                                            .get(y.getLang())
+                                            .getCommand(command.getId())
+                                            .addStructureDescription(y.getContents());
+                                }
+                            });
+                        }
+                    });
+
+                    // YAML構成を作成
+                    createCommandStructure(context, command);
+                });
     }
 
     /**
