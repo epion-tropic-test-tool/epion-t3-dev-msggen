@@ -131,30 +131,31 @@ public final class SpecParseComponent implements Component {
      */
     private void parseMessages(DevGeneratorContext context) {
 
-        for (Message message : context.getSpec().getMessages()) {
+        Optional.ofNullable(context.getSpec().getMessages())
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .forEach(message -> {
 
-            // メッセージ＝Propertiesファイルの１行を作成する
-            Property property = new Property();
-            property.setKey(message.getId());
+                    // メッセージ＝Propertiesファイルの１行を作成する
+                    Property property = new Property();
+                    property.setKey(message.getId());
 
-            // Locale毎に分割されたFunctionModelに対してメッセージを追加していく
-            context.getFunctionModelMap().forEach((k, v) -> {
-                v.getMessages().put(message.getId(), SerializationUtils.clone(property));
-            });
+                    // Locale毎に分割されたFunctionModelに対してメッセージを追加していく
+                    context.getFunctionModelMap().forEach((k, v) -> {
+                        v.getMessages().put(message.getId(), SerializationUtils.clone(property));
+                    });
 
-            // Locale毎にメッセージ文字列を設定していく.
-            message.getMessage().stream().forEach(x -> {
-                if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                    context.getFunctionModelMap()
-                            .get(x.getLang())
-                            .getMessages()
-                            .get(message.getId())
-                            .setValue(x.getContents());
-                }
-            });
-
-        }
-
+                    // Locale毎にメッセージ文字列を設定していく.
+                    message.getMessage().stream().forEach(x -> {
+                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                            context.getFunctionModelMap()
+                                    .get(x.getLang())
+                                    .getMessages()
+                                    .get(message.getId())
+                                    .setValue(x.getContents());
+                        }
+                    });
+                });
     }
 
     /**
