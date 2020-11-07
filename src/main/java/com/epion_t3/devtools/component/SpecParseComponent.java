@@ -188,17 +188,23 @@ public final class SpecParseComponent implements Component {
                     });
 
                     // Summary
-                    command.getSummary().stream().forEach(x -> {
-                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                            context.getFunctionModelMap()
-                                    .get(x.getLang())
-                                    .getCommand(command.getId())
-                                    .addSummary(x.getContents());
-                        }
-                    });
+                    Optional.ofNullable(command.getSummary())
+                            .map(Collection::stream)
+                            .orElseGet(Stream::empty)
+                            .forEach(x -> {
+                                if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                                    context.getFunctionModelMap()
+                                            .get(x.getLang())
+                                            .getCommand(command.getId())
+                                            .addSummary(x.getContents());
+                                }
+                            });
 
                     // Functions
-                    command.getFunction().stream().sorted(FunctionComparator.getInstance()).forEach(x -> {
+                    Optional.ofNullable(command.getFunction())
+                            .map(Collection::stream)
+                            .orElseGet(Stream::empty)
+                            .sorted(FunctionComparator.getInstance()).forEach(x -> {
                         x.getSummary().forEach(y -> {
                             if (context.getFunctionModelMap().containsKey(y.getLang())) {
                                 context.getFunctionModelMap()
@@ -210,7 +216,10 @@ public final class SpecParseComponent implements Component {
                     });
 
                     // Structure Description
-                    command.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
+                    Optional.ofNullable(command.getStructure())
+                            .map(Collection::stream)
+                            .orElseGet(Stream::empty)
+                            .sorted(StructureComparator.getInstance()).forEach(x -> {
                         if (CollectionUtils.isNotEmpty(x.getDescription())) {
                             x.getDescription().forEach(y -> {
                                 if (context.getFunctionModelMap().containsKey(y.getLang())) {
@@ -250,29 +259,38 @@ public final class SpecParseComponent implements Component {
                     });
 
                     // Summary
-                    configuration.getSummary().stream().forEach(x -> {
-                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
-                            context.getFunctionModelMap()
-                                    .get(x.getLang())
-                                    .getConfiguration(configuration.getId())
-                                    .addSummary(x.getContents());
-                        }
-                    });
+                    Optional.ofNullable(configuration.getSummary())
+                            .map(Collection::stream)
+                            .orElseGet(Stream::empty)
+                            .forEach(x -> {
+                                if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                                    context.getFunctionModelMap()
+                                            .get(x.getLang())
+                                            .getConfiguration(configuration.getId())
+                                            .addSummary(x.getContents());
+                                }
+                            });
 
                     // Configuration
-                    configuration.getDescription().stream().sorted(DescriptionComparator.getInstance()).forEach(x -> {
-                        x.getSummary().forEach(y -> {
-                            if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                                context.getFunctionModelMap()
-                                        .get(y.getLang())
-                                        .getConfiguration(configuration.getId())
-                                        .addDescription(y.getContents());
-                            }
-                        });
-                    });
+                    Optional.ofNullable(configuration.getDescription())
+                            .map(Collection::stream)
+                            .orElseGet(Stream::empty)
+                            .forEach(x -> {
+                                x.getSummary().forEach(y -> {
+                                    if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                        context.getFunctionModelMap()
+                                                .get(y.getLang())
+                                                .getConfiguration(configuration.getId())
+                                                .addDescription(y.getContents());
+                                    }
+                                });
+                            });
 
                     // Structure Description
-                    configuration.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
+                    Optional.ofNullable(configuration.getStructure())
+                            .map(Collection::stream)
+                            .orElseGet(Stream::empty)
+                            .sorted(StructureComparator.getInstance()).forEach(x -> {
                         if (CollectionUtils.isNotEmpty(x.getDescription())) {
                             x.getDescription().forEach(y -> {
                                 if (context.getFunctionModelMap().containsKey(y.getLang())) {
@@ -308,7 +326,7 @@ public final class SpecParseComponent implements Component {
     /**
      * YAML構成を作成.
      *
-     * @param context コンテキスト
+     * @param context       コンテキスト
      * @param configuration コマンド
      */
     private void createStructure(DevGeneratorContext context, Configuration configuration) {
