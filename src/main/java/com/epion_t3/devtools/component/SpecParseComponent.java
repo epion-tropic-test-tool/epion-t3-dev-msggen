@@ -6,6 +6,7 @@ import com.epion_t3.core.common.type.StructureType;
 import com.epion_t3.devtools.bean.CommandModel;
 import com.epion_t3.devtools.bean.ConfigurationModel;
 import com.epion_t3.devtools.bean.DevGeneratorContext;
+import com.epion_t3.devtools.bean.FlowModel;
 import com.epion_t3.devtools.bean.FunctionModel;
 import com.epion_t3.devtools.bean.Property;
 import com.epion_t3.devtools.comparator.DescriptionComparator;
@@ -97,6 +98,9 @@ public final class SpecParseComponent implements Component {
             // メッセージを解析
             parseMessages(context);
 
+            // Flowを解析
+            parseFlows(context);
+
             // コマンドを解析
             parseCommands(context);
 
@@ -160,6 +164,68 @@ public final class SpecParseComponent implements Component {
                                     .setValue(x.getContents());
                         }
                     });
+                });
+    }
+
+    /**
+     * Flow定義を解析.
+     *
+     * @param context 機能出力モデルマップ
+     */
+    private void parseFlows(DevGeneratorContext context) {
+
+        // Command
+        Optional.ofNullable(context.getSpec().getFlows())
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .forEach(flow -> {
+
+                    // Localeが関係ないものはここで処理する.
+                    FlowModel f = new FlowModel();
+                    f.setId(flow.getId());
+
+                    context.getFunctionModelMap().forEach((k, v) -> {
+                        v.getFlows().put(f.getId(), SerializationUtils.clone(f));
+                    });
+
+                    // Summary
+                    flow.getSummary().stream().forEach(x -> {
+                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                            context.getFunctionModelMap()
+                                    .get(x.getLang())
+                                    .getFlow(flow.getId())
+                                    .addSummary(x.getContents());
+                        }
+                    });
+
+                    // Functions
+                    flow.getFunction().stream().sorted(FunctionComparator.getInstance()).forEach(x -> {
+                        x.getSummary().forEach(y -> {
+                            if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                context.getFunctionModelMap()
+                                        .get(y.getLang())
+                                        .getFlow(flow.getId())
+                                        .addFunction(y.getContents());
+                            }
+                        });
+                    });
+
+                    // Structure Description
+                    flow.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
+                        if (CollectionUtils.isNotEmpty(x.getDescription())) {
+                            x.getDescription().forEach(y -> {
+                                if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                    context.getFunctionModelMap()
+                                            .get(y.getLang())
+                                            .getFlow(flow.getId())
+                                            .addStructureDescription(y.getContents());
+                                }
+                            });
+                        }
+                    });
+
+                    // YAML構成を作成
+                    createStructure(context, flow);
                 });
     }
 
@@ -288,6 +354,21 @@ public final class SpecParseComponent implements Component {
                     // YAML構成を作成
                     createStructure(context, configuration);
                 });
+    }
+
+    /**
+     * YAML構成を作成.
+     *
+     * @param context コンテキスト
+     * @param flow Flow
+     */
+    private void createStructure(DevGeneratorContext context, Flow flow) {
+        for (Map.Entry<String, FunctionModel> entry : context.getFunctionModelMap().entrySet()) {
+            StringBuilder sb = new StringBuilder();
+            createStructureRecursive(entry.getKey(), sb, 0, flow.getStructure());
+            entry.getValue().getFlow(flow.getId()).setStructure(sb.toString());
+            System.out.println(sb.toString());
+        }
     }
 
     /**
