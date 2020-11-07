@@ -6,8 +6,8 @@ plugins {
     id 'maven'
     id 'maven-publish'
     id 'jacoco'
-//    id "com.diffplug.gradle.spotless" version "3.26.1"
-//    id "com.jfrog.bintray" version "1.8.5"
+    id "com.diffplug.gradle.spotless" version "3.26.1"
+    id "com.jfrog.bintray" version "1.8.5"
 }
 
 ext {
@@ -104,14 +104,14 @@ codeCoverageReport.dependsOn {
     subprojects*.test
 }
 
-//spotless {
-//    java {
-//        enforceCheck = true
-//        licenseHeaderFile rootProject.file('./formatter/LICENSE')
-//        eclipse().configFile rootProject.file('./formatter/formatter.xml')
-//        lineEndings 'UNIX'
-//    }
-//}
+spotless {
+    java {
+        enforceCheck = true
+        licenseHeaderFile rootProject.file('./formatter/LICENSE')
+        eclipse().configFile rootProject.file('./formatter/formatter.xml')
+        lineEndings 'UNIX'
+    }
+}
 
 // Library Publish
 bintray {

@@ -270,33 +270,35 @@ public final class SpecParseComponent implements Component {
                     Optional.ofNullable(command.getFunction())
                             .map(Collection::stream)
                             .orElseGet(Stream::empty)
-                            .sorted(FunctionComparator.getInstance()).forEach(x -> {
-                        x.getSummary().forEach(y -> {
-                            if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                                context.getFunctionModelMap()
-                                        .get(y.getLang())
-                                        .getCommand(command.getId())
-                                        .addFunction(y.getContents());
-                            }
-                        });
-                    });
+                            .sorted(FunctionComparator.getInstance())
+                            .forEach(x -> {
+                                x.getSummary().forEach(y -> {
+                                    if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                        context.getFunctionModelMap()
+                                                .get(y.getLang())
+                                                .getCommand(command.getId())
+                                                .addFunction(y.getContents());
+                                    }
+                                });
+                            });
 
                     // Structure Description
                     Optional.ofNullable(command.getStructure())
                             .map(Collection::stream)
                             .orElseGet(Stream::empty)
-                            .sorted(StructureComparator.getInstance()).forEach(x -> {
-                        if (CollectionUtils.isNotEmpty(x.getDescription())) {
-                            x.getDescription().forEach(y -> {
-                                if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                                    context.getFunctionModelMap()
-                                            .get(y.getLang())
-                                            .getCommand(command.getId())
-                                            .addStructureDescription(y.getContents());
+                            .sorted(StructureComparator.getInstance())
+                            .forEach(x -> {
+                                if (CollectionUtils.isNotEmpty(x.getDescription())) {
+                                    x.getDescription().forEach(y -> {
+                                        if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                            context.getFunctionModelMap()
+                                                    .get(y.getLang())
+                                                    .getCommand(command.getId())
+                                                    .addStructureDescription(y.getContents());
+                                        }
+                                    });
                                 }
                             });
-                        }
-                    });
 
                     // YAML構成を作成
                     createStructure(context, command);
@@ -356,18 +358,19 @@ public final class SpecParseComponent implements Component {
                     Optional.ofNullable(configuration.getStructure())
                             .map(Collection::stream)
                             .orElseGet(Stream::empty)
-                            .sorted(StructureComparator.getInstance()).forEach(x -> {
-                        if (CollectionUtils.isNotEmpty(x.getDescription())) {
-                            x.getDescription().forEach(y -> {
-                                if (context.getFunctionModelMap().containsKey(y.getLang())) {
-                                    context.getFunctionModelMap()
-                                            .get(y.getLang())
-                                            .getConfiguration(configuration.getId())
-                                            .addStructureDescription(y.getContents());
+                            .sorted(StructureComparator.getInstance())
+                            .forEach(x -> {
+                                if (CollectionUtils.isNotEmpty(x.getDescription())) {
+                                    x.getDescription().forEach(y -> {
+                                        if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                            context.getFunctionModelMap()
+                                                    .get(y.getLang())
+                                                    .getConfiguration(configuration.getId())
+                                                    .addStructureDescription(y.getContents());
+                                        }
+                                    });
                                 }
                             });
-                        }
-                    });
 
                     // YAML構成を作成
                     createStructure(context, configuration);
@@ -407,7 +410,7 @@ public final class SpecParseComponent implements Component {
     /**
      * YAML構成を作成.
      *
-     * @param context       コンテキスト
+     * @param context コンテキスト
      * @param configuration コマンド
      */
     private void createStructure(DevGeneratorContext context, Configuration configuration) {
