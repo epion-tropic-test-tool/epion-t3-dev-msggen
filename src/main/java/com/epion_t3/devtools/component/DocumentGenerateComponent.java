@@ -11,7 +11,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * ドキュメント生成処理.
@@ -24,6 +27,19 @@ public final class DocumentGenerateComponent implements Component {
      * シングルトンインスタンス.
      */
     private static DocumentGenerateComponent instance = new DocumentGenerateComponent();
+
+    /**
+     * テンプレートキャッシュ.
+     */
+    private static Map<String, Mustache> templateCache = new ConcurrentHashMap<>();
+
+    static {
+        MustacheFactory mf = new DefaultMustacheFactory();
+        Mustache m_ja = mf.compile("function-ja_JP.mustache");
+        Mustache m_en = mf.compile("function-en_US.mustache");
+        templateCache.put(Locale.JAPAN.toString(), m_ja);
+        templateCache.put(Locale.US.toString(), m_en);
+    }
 
     /**
      * プライベートコンストラクタ.
@@ -58,14 +74,21 @@ public final class DocumentGenerateComponent implements Component {
      * @param context コンテキスト
      */
     private void createFunctionDocument(DevGeneratorContext context) {
-        MustacheFactory mf = new DefaultMustacheFactory();
-        Mustache m = mf.compile("function.mustache");
         for (Map.Entry<String, FunctionModel> entry : context.getFunctionModelMap().entrySet()) {
+            Locale l = new Locale(entry.getKey().split("_")[0], entry.getKey().split("_")[1]);
+            Mustache template = null;
+            if (templateCache.containsKey(l.toString())) {
+                template = templateCache.get(l.toString());
+            } else {
+                throw new RuntimeException("未対応のロケールです:" + l.toString());
+            }
             try (StringWriter sw = new StringWriter()) {
-                m.execute(sw, entry.getValue());
+                template.execute(sw, entry.getValue());
                 sw.flush();
-                FileUtils.write(new File(context.getExecuteOptions().getDocOutput(),
-                        context.getSpec().getInfo().getName() + "_spec.md"), sw.toString(), "UTF-8");
+                FileUtils.write(
+                        new File(context.getExecuteOptions().getDocOutput(),
+                                context.getSpec().getInfo().getName() + "_spec_" + l.toString() + ".md"),
+                        sw.toString(), "UTF-8");
             } catch (IOException e) {
 
             }

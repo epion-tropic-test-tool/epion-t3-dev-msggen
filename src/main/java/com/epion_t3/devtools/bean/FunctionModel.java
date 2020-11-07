@@ -47,6 +47,16 @@ public class FunctionModel {
     private List<String> description;
 
     /**
+     * 設定.
+     */
+    private Map<String, ConfigurationModel> configurations = new HashMap<>();
+
+    /**
+     * 設定セット.
+     */
+    private Set<Map.Entry<String, ConfigurationModel>> configurationsEntrySet = configurations.entrySet();
+
+    /**
      * コマンド.
      */
     private Map<String, CommandModel> commands = new HashMap<>();
@@ -65,6 +75,11 @@ public class FunctionModel {
      * メッセージセット.
      */
     private Set<Map.Entry<String, Property>> messagesEntrySet = messages.entrySet();
+
+    @Nullable
+    public ConfigurationModel getConfiguration(String id) {
+        return configurations.get(id);
+    }
 
     @Nullable
     public CommandModel getCommand(String id) {
