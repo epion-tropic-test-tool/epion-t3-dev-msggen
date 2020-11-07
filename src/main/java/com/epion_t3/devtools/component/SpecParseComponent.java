@@ -4,9 +4,11 @@ package com.epion_t3.devtools.component;
 import com.epion_t3.core.common.bean.spec.*;
 import com.epion_t3.core.common.type.StructureType;
 import com.epion_t3.devtools.bean.CommandModel;
+import com.epion_t3.devtools.bean.ConfigurationModel;
 import com.epion_t3.devtools.bean.DevGeneratorContext;
 import com.epion_t3.devtools.bean.FunctionModel;
 import com.epion_t3.devtools.bean.Property;
+import com.epion_t3.devtools.comparator.DescriptionComparator;
 import com.epion_t3.devtools.comparator.FunctionComparator;
 import com.epion_t3.devtools.comparator.StructureComparator;
 import com.epion_t3.devtools.exception.GeneratorException;
@@ -97,6 +99,9 @@ public final class SpecParseComponent implements Component {
 
             // コマンドを解析
             parseCommands(context);
+
+            // 設定を解析
+            parseConfigurations(context);
 
         } catch (IOException e) {
             throw new GeneratorException("fail parse spec file.", e);
@@ -219,7 +224,69 @@ public final class SpecParseComponent implements Component {
                     });
 
                     // YAML構成を作成
-                    createCommandStructure(context, command);
+                    createStructure(context, command);
+                });
+    }
+
+    /**
+     * 設定定義を解析.
+     *
+     * @param context 機能出力モデルマップ
+     */
+    private void parseConfigurations(DevGeneratorContext context) {
+
+        // Command
+        Optional.ofNullable(context.getSpec().getConfigurations())
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .forEach(configuration -> {
+
+                    // Localeが関係ないものはここで処理する.
+                    ConfigurationModel com = new ConfigurationModel();
+                    com.setId(configuration.getId());
+
+                    context.getFunctionModelMap().forEach((k, v) -> {
+                        v.getConfigurations().put(com.getId(), SerializationUtils.clone(com));
+                    });
+
+                    // Summary
+                    configuration.getSummary().stream().forEach(x -> {
+                        if (context.getFunctionModelMap().containsKey(x.getLang())) {
+                            context.getFunctionModelMap()
+                                    .get(x.getLang())
+                                    .getConfiguration(configuration.getId())
+                                    .addSummary(x.getContents());
+                        }
+                    });
+
+                    // Configuration
+                    configuration.getDescription().stream().sorted(DescriptionComparator.getInstance()).forEach(x -> {
+                        x.getSummary().forEach(y -> {
+                            if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                context.getFunctionModelMap()
+                                        .get(y.getLang())
+                                        .getConfiguration(configuration.getId())
+                                        .addDescription(y.getContents());
+                            }
+                        });
+                    });
+
+                    // Structure Description
+                    configuration.getStructure().stream().sorted(StructureComparator.getInstance()).forEach(x -> {
+                        if (CollectionUtils.isNotEmpty(x.getDescription())) {
+                            x.getDescription().forEach(y -> {
+                                if (context.getFunctionModelMap().containsKey(y.getLang())) {
+                                    context.getFunctionModelMap()
+                                            .get(y.getLang())
+                                            .getConfiguration(configuration.getId())
+                                            .addStructureDescription(y.getContents());
+                                }
+                            });
+                        }
+                    });
+
+                    // YAML構成を作成
+                    createStructure(context, configuration);
                 });
     }
 
@@ -229,17 +296,39 @@ public final class SpecParseComponent implements Component {
      * @param context コンテキスト
      * @param command コマンド
      */
-    private void createCommandStructure(DevGeneratorContext context, Command command) {
+    private void createStructure(DevGeneratorContext context, Command command) {
         for (Map.Entry<String, FunctionModel> entry : context.getFunctionModelMap().entrySet()) {
             StringBuilder sb = new StringBuilder();
-            createCommandStructureRecursive(entry.getKey(), sb, 0, command.getStructure());
+            createStructureRecursive(entry.getKey(), sb, 0, command.getStructure());
             entry.getValue().getCommand(command.getId()).setStructure(sb.toString());
             System.out.println(sb.toString());
         }
     }
 
-    private void createCommandStructureRecursive(String locale, StringBuilder sb, int level,
-            List<Structure> structures) {
+    /**
+     * YAML構成を作成.
+     *
+     * @param context コンテキスト
+     * @param configuration コマンド
+     */
+    private void createStructure(DevGeneratorContext context, Configuration configuration) {
+        for (Map.Entry<String, FunctionModel> entry : context.getFunctionModelMap().entrySet()) {
+            StringBuilder sb = new StringBuilder();
+            createStructureRecursive(entry.getKey(), sb, 0, configuration.getStructure());
+            entry.getValue().getConfiguration(configuration.getId()).setStructure(sb.toString());
+            System.out.println(sb.toString());
+        }
+    }
+
+    /**
+     * コマンドの構成を作成.
+     *
+     * @param locale
+     * @param sb
+     * @param level
+     * @param structures
+     */
+    private void createStructureRecursive(String locale, StringBuilder sb, int level, List<Structure> structures) {
 
         if (level == 0) {
             sb.append("commands : \n");
@@ -264,7 +353,7 @@ public final class SpecParseComponent implements Component {
             if (structureType == StructureType.OBJECT) {
                 // TODO : objectであるのに、配下のプロパティが存在しない場合にNullPointerExceptionになるため一時的に回避
                 if (structure.getProperty() != null) {
-                    createCommandStructureRecursive(locale, sb, level + 1, structure.getProperty());
+                    createStructureRecursive(locale, sb, level + 1, structure.getProperty());
                 }
             }
         }

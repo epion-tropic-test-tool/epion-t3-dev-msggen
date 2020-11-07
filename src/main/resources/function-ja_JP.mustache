@@ -1,4 +1,7 @@
-# {{labelName}} Command
+# {{labelName}} カスタム機能ドキュメント
+
+このドキュメントは、{{labelName}} のカスタム機能が提供する、
+Flow、コマンド、設定定義についての説明及び出力するメッセージの定義について説明する。
 
 - Contents
   - [Information](#Information)
@@ -8,8 +11,10 @@
   - [Configuration List](#Configuration-List)
   - [Message List](#Message-List)
 
-
 ## Information
+
+本カスタム機能の基本情報は以下の通り。
+
 {{#summary}}
 {{.}}
 {{/summary}}
@@ -24,7 +29,11 @@
 
 ## Flow List
 
+本カスタム機能が提供するFlowの一覧及び詳細。
+
 ## Command List
+
+本カスタム機能が提供するコマンドの一覧及び詳細。
 
 |Name|Summary|Assert|Evidence|
 |:---|:---|:---|:---|
@@ -57,9 +66,36 @@
 
 ## Configuration List
 
+本カスタム機能が提供する設定定義の一覧及び詳細。
+
+|Name|Summary|
+|:---|:---|
+{{#configurationsEntrySet}}|[{{value.id}}](#{{value.id}})|{{#value.summaries}}{{.}}  {{/value.summaries}}|
+{{/configurationsEntrySet}}
+
+{{#configurationsEntrySet}}
+------
+
+### {{value.id}}
+{{#value.summaries}}{{.}}
+{{/value.summaries}}
+
+#### Description
+{{#value.descriptions}}{{#summary}}- {{.}}
+{{/summary}}{{/value.descriptions}}
+
+#### Structure
+```yaml
+{{{value.structure}}}
+```
+
+{{#value.structureDescription}}1. {{.}}
+{{/value.structureDescription}}
+{{/configurationsEntrySet}}
+
 ## Message List
 
-{{labelName}} Command output messages.
+本カスタム機能が出力するメッセージの一覧及び内容。
 
 |MessageID|MessageContents|
 |:---|:---|
