@@ -31,6 +31,31 @@ Flow、コマンド、設定定義についての説明及び出力するメッ�
 
 本カスタム機能が提供するFlowの一覧及び詳細。
 
+|Name|Summary|
+|:---|:---|
+{{#flowsEntrySet}}|[{{value.id}}](#{{value.id}})|{{#value.summary}}{{.}}  {{/value.summary}}|
+{{/flowsEntrySet}}
+
+{{#flowsEntrySet}}
+------
+
+### {{value.id}}
+{{#value.summary}}{{.}}
+{{/value.summary}}
+
+#### Functions
+{{#value.function}}- {{.}}
+{{/value.function}}
+
+#### Structure
+```yaml
+{{{value.structure}}}
+```
+
+{{#value.structureDescription}}1. {{.}}
+{{/value.structureDescription}}
+{{/flowsEntrySet}}
+
 ## Command List
 
 本カスタム機能が提供するコマンドの一覧及び詳細。

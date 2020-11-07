@@ -24,6 +24,32 @@
 
 ## Flow List
 
+
+|Name|Summary|
+|:---|:---|
+{{#flowsEntrySet}}|[{{value.id}}](#{{value.id}})|{{#value.summary}}{{.}}  {{/value.summary}}|
+{{/flowsEntrySet}}
+
+{{#flowsEntrySet}}
+------
+
+### {{value.id}}
+{{#value.summary}}{{.}}
+{{/value.summary}}
+
+#### Functions
+{{#value.function}}- {{.}}
+{{/value.function}}
+
+#### Structure
+```yaml
+{{{value.structure}}}
+```
+
+{{#value.structureDescription}}1. {{.}}
+{{/value.structureDescription}}
+{{/flowsEntrySet}}
+
 ## Command List
 
 |Name|Summary|Assert|Evidence|
@@ -56,6 +82,7 @@
 {{/commandsEntrySet}}
 
 ## Configuration List
+
 
 |Name|Summary|
 |:---|:---|

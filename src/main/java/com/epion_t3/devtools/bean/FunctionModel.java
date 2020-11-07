@@ -57,6 +57,16 @@ public class FunctionModel {
     private Set<Map.Entry<String, ConfigurationModel>> configurationsEntrySet = configurations.entrySet();
 
     /**
+     * Flow.
+     */
+    private Map<String, FlowModel> flows = new HashMap<>();
+
+    /**
+     * Flowセット.
+     */
+    private Set<Map.Entry<String, FlowModel>> flowsEntrySet = flows.entrySet();
+
+    /**
      * コマンド.
      */
     private Map<String, CommandModel> commands = new HashMap<>();
@@ -79,6 +89,11 @@ public class FunctionModel {
     @Nullable
     public ConfigurationModel getConfiguration(String id) {
         return configurations.get(id);
+    }
+
+    @Nullable
+    public FlowModel getFlow(String id) {
+        return flows.get(id);
     }
 
     @Nullable
