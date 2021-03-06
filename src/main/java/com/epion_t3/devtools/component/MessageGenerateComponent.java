@@ -12,6 +12,7 @@ import com.zomu_t.lib.java.generate.java8.generator.Java8Generator;
 import com.zomu_t.lib.java.generate.java8.model.*;
 import com.zomu_t.lib.java.generate.java8.type.AccessModifier;
 import com.zomu_t.lib.java.generate.java8.type.ClassKind;
+import com.zomu_t.lib.java.generate.java8.type.FieldModifier;
 import com.zomu_t.lib.java.generate.java8.util.TypeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.WordUtils;
@@ -140,6 +141,7 @@ public final class MessageGenerateComponent implements Component {
                         .field(FieldModel.builder()
                                 .javaDoc(JavaDocModel.builder().mainContent("メッセージコード").build())
                                 .accessModifier(AccessModifier.PRIVATE)
+                                .fieldModifier(FieldModifier.FINAL)
                                 .type(TypeUtils.getStringClassModel())
                                 .name("messageCode")
                                 .getterAutoCreate(true)

@@ -14,7 +14,7 @@ ext {
     // バージョン定義
     versionMajor = 0
     versionMinor = 0
-    versionPatch = 2
+    versionPatch = 4
 
     // アーティファクト関連
     group 'com.epion_t3'
@@ -39,7 +39,7 @@ repositories {
 dependencies {
 
     // Core Library
-    api group: 'com.epion_t3', name: 'epion-t3-core', version: '0.0.2'
+    api 'com.epion_t3:epion-t3-core:0.0.4'
 
     // 3rd Party
     api group: 'com.zomu_t', name: 'lib-java-generate', version: '0.0.2'
