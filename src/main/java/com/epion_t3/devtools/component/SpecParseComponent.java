@@ -434,14 +434,20 @@ public final class SpecParseComponent implements Component {
 
         if (level == 0) {
             sb.append("commands : \n");
+            sb.append(getNestString(level) + "- ");
         }
 
-        String levelSpace = getNestString(level);
+        var levelSpace = getNestString(level);
 
         for (Structure structure : structures) {
-            sb.append(levelSpace);
+            if (level == 0) {
+                level++;
+                levelSpace = getNestString(level);
+            } else {
+                sb.append(levelSpace);
+            }
             sb.append(structure.getName());
-            sb.append(" : ");
+            sb.append(": ");
 
             for (Content content : structure.getSummary()) {
                 if (content.getLang().equals(locale)) {
